@@ -387,8 +387,8 @@ This fork includes custom enhancements for Galaxy XR development:
 # Run these commands in order
 git checkout galaxy-xr-custom
 
-conda env create -f environment_linux.yaml -n dino
-conda activate dino
+conda env create -f environment_linux.yaml -n groundingdino
+conda activate groundingdino
 
 CUDA_HOME=$CONDA_PREFIX
 export PATH=$CONDA_PREFIX/bin:$PATH
