@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import time # for measuring inference time
 
 import numpy as np
 import torch
@@ -13,6 +14,9 @@ from groundingdino.util.slconfig import SLConfig
 from groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
 from groundingdino.util.vl_utils import create_positive_map_from_span
 
+# Added to support HEIF format images
+import pillow_heif  # 1. Import the helper
+pillow_heif.register_heif_opener()  # 2. Register the opener
 
 def plot_boxes_to_image(image_pil, tgt):
     H, W = tgt["size"]
@@ -196,11 +200,37 @@ if __name__ == "__main__":
         text_threshold = None
         print("Using token_spans. Set the text_threshold to None.")
 
+    # --- WARM-UP ---
+    # Run it once to "wake up" the GPU and load kernels
+    _ = get_grounding_output(
+        model, image, text_prompt, box_threshold, text_threshold, cpu_only=args.cpu_only, token_spans=eval(f"{token_spans}")
+    )
+    _ = get_grounding_output(
+        model, image, text_prompt, box_threshold, text_threshold, cpu_only=args.cpu_only, token_spans=eval(f"{token_spans}")
+    )
+    _ = get_grounding_output(
+        model, image, text_prompt, box_threshold, text_threshold, cpu_only=args.cpu_only, token_spans=eval(f"{token_spans}")
+    )
+    print(f"model: {model}")
+    print(f"image: {image}")
+    print(f"text_prompt: {text_prompt}")
+    print(f"box_threshold: {box_threshold}")
+    print(f"text_threshold: {text_threshold}")
+    print(f"cpu_only: {args.cpu_only}")
+    print(f"token_spans: {token_spans}")
 
     # run model
+    torch.cuda.synchronize()
+    start = time.time()
     boxes_filt, pred_phrases = get_grounding_output(
         model, image, text_prompt, box_threshold, text_threshold, cpu_only=args.cpu_only, token_spans=eval(f"{token_spans}")
     )
+
+    torch.cuda.synchronize()
+    end = time.time()
+    print(f"Inference time: {end - start} seconds")
+    print(f"boxes_filt: {boxes_filt}")
+    print(f"pred_phrases: {pred_phrases}")
 
     # visualize pred
     size = image_pil.size
