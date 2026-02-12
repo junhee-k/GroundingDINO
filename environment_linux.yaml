@@ -218,9 +218,9 @@ dependencies:
       - timm==1.0.24
       - tokenizers==0.13.3
       - tomli==2.4.0
-      - torch==2.5.1+cu121
-      - torchaudio==2.5.1+cu121
-      - torchvision==0.20.1+cu121
+      - torch==2.5.1
+      - torchaudio==2.5.1
+      - torchvision==0.20.1
       - tqdm==4.67.3
       - transformers==4.33.0
       - triton==3.1.0
