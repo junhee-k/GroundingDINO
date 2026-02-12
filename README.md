@@ -384,9 +384,15 @@ This fork includes custom enhancements for Galaxy XR development:
 
 ### Environment Setup
 ```bash
+# 1. Create conda environment
 conda env create -f environment_linux.yaml
 conda activate dino
-pip install pillow-heif  # For HEIC support
+
+# 2. Install GroundingDINO from source
+pip install -e .
+
+# 3. Install HEIC support for Galaxy XR features
+pip install pillow-heif
 ```
 
 ### Upstream Sync
