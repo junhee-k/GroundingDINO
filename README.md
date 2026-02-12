@@ -376,7 +376,7 @@ This fork includes custom enhancements for Galaxy XR development:
 - **HEIF/HEIC Support**: Modified demo script supports iPhone/Galaxy XR HEIF format images
 - **Performance Benchmarking**: Tools for testing inference at different resolutions
 - **GPU Warm-up**: Proper GPU initialization for accurate timing measurements
-- **Linux Environment**: Pre-configured conda environment for CUDA 11.8
+- **Linux Environment**: Pre-configured conda environment
 
 ### Custom Directories
 - `galaxy_xr/`: Sample images and XR-specific test data
@@ -394,8 +394,6 @@ CUDA_HOME=$CONDA_PREFIX
 export PATH=$CONDA_PREFIX/bin:$PATH
 
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 --upgrade
-
-pip install "numpy<2"
 
 pip install transformers==4.33.0
 
