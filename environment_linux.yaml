@@ -6,12 +6,13 @@ name: dino
 channels:
   - defaults
   - conda-forge
+  - nvidia
 dependencies:
   - python=3.10
   - pip
-  # Build tools for compiling C++/CUDA extensions
-  - gcc_linux-64
-  - gxx_linux-64
+  # CUDA toolkit 12.8
+  - cuda-toolkit=12.8
+
   # Optional: Jupyter for notebooks
   - jupyter
   - ipython

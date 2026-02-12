@@ -384,15 +384,39 @@ This fork includes custom enhancements for Galaxy XR development:
 
 ### Environment Setup
 ```bash
-# 1. Create conda environment
-conda env create -f environment_linux.yaml
+# Run these commands in order
+git checkout galaxy-xr-custom
+
+conda env create -f environment_linux.yaml -n dino
 conda activate dino
 
-# 2. Install GroundingDINO from source
-pip install -e .
+CUDA_HOME=$CONDA_PREFIX
+export PATH=$CONDA_PREFIX/bin:$PATH
 
-# 3. Install HEIC support for Galaxy XR features
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 --upgrade
+
+pip install "numpy<2"
+
+pip install transformers==4.33.0
+
+export TORCH_CUDA_ARCH_LIST="7.5"
+
+# Install GroundingDINO from source 
+pip install -e . --no-build-isolation
+
+# Install HEIC support for Galaxy XR photos
 pip install pillow-heif
+
+# Download Weights
+mkdir weights
+cd weights
+wget -q https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
+cd ..
+```
+
+### Run inference_on_a_image.py
+```
+python demo/inference_on_a_image.py -c groundingdino/config/GroundingDINO_SwinT_OGC.py -p weights/groundingdino_swint_ogc.pth -i galaxy_xr/sample4.png -o "outputs" -t "drinks . snacks ."
 ```
 
 ### Upstream Sync
