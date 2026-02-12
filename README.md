@@ -366,6 +366,36 @@ If you find our work helpful for your research, please consider citing the follo
 }
 ```
 
+---
+
+## Galaxy XR Custom Fork
+
+This fork includes custom enhancements for Galaxy XR development:
+
+### Features
+- **HEIF/HEIC Support**: Modified demo script supports iPhone/Galaxy XR HEIF format images
+- **Performance Benchmarking**: Tools for testing inference at different resolutions
+- **GPU Warm-up**: Proper GPU initialization for accurate timing measurements
+- **Linux Environment**: Pre-configured conda environment for CUDA 11.8
+
+### Custom Directories
+- `galaxy_xr/`: Sample images and XR-specific test data
+- `bench/`: Benchmarking and performance testing scripts
+
+### Environment Setup
+```bash
+conda env create -f environment_linux.yaml
+conda activate dino
+pip install pillow-heif  # For HEIC support
+```
+
+### Upstream Sync
+This fork maintains a connection to the upstream repository:
+```bash
+git fetch upstream
+git merge upstream/main
+```
+
 
 
 
